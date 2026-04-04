@@ -28,7 +28,7 @@ Secure communication is handled via JSON Web Tokens. All sensitive endpoints (Tr
 * **Validation:** Signature, Issuer, Audience, and Lifetime validation are enforced.
 
 ### Activity Logging
-Every critical action—such as logins, transaction updates, and profile changes—is tracked via a dedicated `IActivityLogService` for audit trails and security monitoring.
+Every critical action—such as Insight Update changes—is tracked via a dedicated `IActivityLogService` for audit trails and security monitoring.
 
 ### Auto-Migrations
 The API is configured to automatically apply Entity Framework Core migrations to **SQL Server 2025** on startup, ensuring the database schema is always in sync with the code.
