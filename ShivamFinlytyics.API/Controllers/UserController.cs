@@ -42,7 +42,7 @@ namespace ShivamFinlytyics.API.Controllers
             }
         }
 
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
         {
@@ -74,7 +74,7 @@ namespace ShivamFinlytyics.API.Controllers
         }
 
         [HttpGet("admin/logs")]
-        [Authorize(Roles = "Admin")] // 🔒 Critical: Only users with "Admin" claim in JWT can enter
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllLogs()
         {
             try
