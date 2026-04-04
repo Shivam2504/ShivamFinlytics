@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ShivamFinlytics.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d6cce39e0bad5d8fc0cc7281e9b2a71e93e09890")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a0d91394788e8e718ac7295eb4b01b7a613e11d8")]
 [assembly: System.Reflection.AssemblyProductAttribute("ShivamFinlytics.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ShivamFinlytics.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
