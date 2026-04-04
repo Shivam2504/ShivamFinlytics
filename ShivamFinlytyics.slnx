@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ShivamFinlytics.Application/ShivamFinlytics.Application.csproj" />
+  <Project Path="ShivamFinlytics.Domain/ShivamFinlytics.Domain.csproj" />
+  <Project Path="ShivamFinlytics.Infrastructure/ShivamFinlytics.Infrastructure.csproj" />
+  <Project Path="ShivamFinlytyics.API/ShivamFinlytyics.API.csproj" />
+</Solution>
