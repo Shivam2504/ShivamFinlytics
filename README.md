@@ -1,114 +1,93 @@
-#  ShivamFinlytics API
+# ShivamFinlytics
 
-**ShivamFinlytics** is a high-performance Financial Analytics API built with **.NET 10**. This project follows Clean Architecture principles to provide a secure, scalable, and resilient backend for managing personal or business finances.
+![GitHub stars](https://img.shields.io/github/stars/Shivam2504/ShivamFinlytics?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Shivam2504/ShivamFinlytics?style=social)
 
-## Tech Stack
+## Overview
 
-* **Framework:** .NET 10 (ASP.NET Core)
-* **Database:** Microsoft SQL Server 2025
-* **ORM:** Entity Framework Core 10
-* **Security:** JWT (JSON Web Tokens) Authentication
-* **Resilience:** Built-in Fixed Window Rate Limiting
-* **Architecture:** Clean Architecture (API, Application, Infrastructure, Domain)
+ShivamFinlytics is a powerful tool for analyzing financial data. This README provides a comprehensive guide to using and contributing to this project.
 
-##  Key Features & Middleware
+## Features
+- Advanced financial data analytics
+- Easy to use interface
+- Integration with various data sources
 
-### Rate Limiting
-To prevent API abuse and Ensure High Availability (HA), the system implements a **Fixed Window Rate Limiter**:
-* **Policy:** 5 requests per 1-minute window per user.
-* **Queueing:** Allows a maximum of 2 requests in the queue before rejection.
-* **Response:** Returns `429 Too Many Requests` when limits are exceeded.
+## Installation
 
-### JWT Authentication
-Secure communication is handled via JSON Web Tokens. All sensitive endpoints (Transactions, Dashboard, Insights) require a valid `Bearer` token.
-* **Validation:** Signature, Issuer, Audience, and Lifetime validation are enforced.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Shivam2504/ShivamFinlytics.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd ShivamFinlytics
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### Activity Logging
-Every critical action—such as logins, transaction updates, and profile changes—is tracked via a dedicated `IActivityLogService` for audit trails and security monitoring.
+## Usage
 
-###  Auto-Migrations
-The API is configured to automatically apply Entity Framework Core migrations to **SQL Server 2025** on startup, ensuring the database schema is always in sync with the code.
+### Basic Example
+```javascript
+import Finlytics from 'finlytics';
 
-## Project Structure
+const analysis = new Finlytics(data);
+const result = analysis.run();
+console.log(result);
+```  
 
-* **`ShivamFinlytyics.API`**: Controllers,Rate Limiting and Middleware.
-* **`ShivamFinlytics.Application`**: Business logic, Interfaces, and Services (Auth, Transactions, Insights).
-* **`ShivamFinlytics.Infrastructure`**: Data access, DbContext, and SQL 2025 Migrations.
-* **`ShivamFinlytics.Domain`**: Core Entities and Domain Models.
+### Advanced Example
+```javascript
+import Finlytics from 'finlytics';
 
-* ## Clean Architecture Pattern
-This project is divided into four distinct layers to ensure separation of concerns and testability:
-- **Domain**: Contains Enterprise logic (Entities, Enums, Exceptions).
-- **Application**: Contains Business logic (DTOs, Mappings, Service Interfaces).
-- **Infrastructure**: Handles Data Access (EF Core, SQL Server 2025, Identity).
-- **API**: The entry point (Controllers, Rate Limiting, JWT Middleware).
+const analysis = new Finlytics(data);
+const result = analysis.run({ detailed: true });
+console.log(result);
+```  
 
-##API Documentation
-All routes are prefixed with /api. Most routes require a JWT Bearer Token in the header:
-Authorization: Bearer {your_token}
+## Contributing
 
-1. Authentication
-AuthController
-| Method | Endpoint | Description | Auth |
-| POST | /auth/login | Authenticate user and return JWT | None |
+We welcome contributions from the community! To contribute:
+1. Fork the repository.
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. Add your changes:
+   ```bash
+   git add .
+   ```
+4. Commit your changes:
+   ```bash
+   git commit -m "Add your message here"
+   ```
+5. Push to the branch:
+   ```bash
+   git push origin feature/YourFeature
+   ```
+6. Create a Pull Request.
 
-2. User Management
-UserController
-| Method | Endpoint | Description | Role |
-| GET | /user/all | List all registered users | Admin |
-| GET | /user/{id} | Get specific user details | Admin |
-| POST | /user/register | Create a new user account | Admin |
-| PUT | /user/toggle-status/{id} | Activate/Deactivate a user | Admin |
-| PUT | /user/update-role/{id} | Change user permissions | Admin |
-| GET | /user/admin/logs | View all system activity logs | Admin |
-| GET | /user/admin/logs/user/{id} | View logs for a specific user | Admin |
+## Testing Instructions
 
-3. Financial Dashboard
-DashboardController
-| Method | Endpoint | Description | Auth |
-| GET | /dashboard/summary | Get overall financial summary | Required |
-| GET | /dashboard/category | Get breakdown by category | Admin |
+To run tests, use the following command:
+```bash
+npm test
+```
+Make sure all tests pass before submitting a pull request.
 
-4. Transactions
-TransactionsController
-| Method | Endpoint | Description | Role |
-| GET | /transactions/all | Get all transactions | Admin |
-| POST | /transactions/create | Record a new transaction | Admin |
-| DELETE | /transactions/{id} | Remove a transaction | Admin |
+## Docker Deployment
 
-5. Financial Insights
-InsightController
-| Method | Endpoint | Description | Role |
-| POST | /insight/Create | Generate a new financial insight | Analyst, Admin |
-| GET | /insight | Retrieve all insights | Required |
+You can deploy this application using Docker. Follow these steps:
+1. Build the image:
+   ```bash
+   docker build -t finlytics .
+   ```
+2. Run the container:
+   ```bash
+   docker run -p 3000:3000 finlytics
+   ```
 
-## Getting Started
-
-### Prerequisites
-* [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-* SQL Server 2025
-
-### Local Setup
-
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/Shivam2504/ShivamFinlytics.git](https://github.com/Shivam2504/ShivamFinlytics.git)
-    cd ShivamFinlytics
-    ```
-
-2.  **Configure Environment:**
-    Set the following variables in your environment or a `.env` file:
-    * `ConnectionStrings__DefaultConnection`: Your SQL 2025 string.
-    * `JWT_KEY`: A 32+ character secret key.
-    * `JWT_ISSUER`: e.g., `https://localhost:7000`
-    * `JWT_AUDIENCE`: e.g., `https://localhost:7000`
-
-3.  **Run the App:**
-    ```bash
-    dotnet run --project ShivamFinlytics.API
-    ```
-
-
-Shivam Kumar
-Backend Developer (.NET)
-Chennai, India
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
