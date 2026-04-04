@@ -43,6 +43,45 @@ This project is divided into four distinct layers to ensure separation of concer
 - **Infrastructure**: Handles Data Access (EF Core, SQL Server 2025, Identity).
 - **API**: The entry point (Controllers, Rate Limiting, JWT Middleware).
 
+##API Documentation
+All routes are prefixed with /api. Most routes require a JWT Bearer Token in the header:
+Authorization: Bearer {your_token}
+
+1. Authentication
+AuthController
+| Method | Endpoint | Description | Auth |
+| POST | /auth/login | Authenticate user and return JWT | None |
+
+2. User Management
+UserController
+| Method | Endpoint | Description | Role |
+| GET | /user/all | List all registered users | Admin |
+| GET | /user/{id} | Get specific user details | Admin |
+| POST | /user/register | Create a new user account | Admin |
+| PUT | /user/toggle-status/{id} | Activate/Deactivate a user | Admin |
+| PUT | /user/update-role/{id} | Change user permissions | Admin |
+| GET | /user/admin/logs | View all system activity logs | Admin |
+| GET | /user/admin/logs/user/{id} | View logs for a specific user | Admin |
+
+3. Financial Dashboard
+DashboardController
+| Method | Endpoint | Description | Auth |
+| GET | /dashboard/summary | Get overall financial summary | Required |
+| GET | /dashboard/category | Get breakdown by category | Admin |
+
+4. Transactions
+TransactionsController
+| Method | Endpoint | Description | Role |
+| GET | /transactions/all | Get all transactions | Admin |
+| POST | /transactions/create | Record a new transaction | Admin |
+| DELETE | /transactions/{id} | Remove a transaction | Admin |
+
+5. Financial Insights
+InsightController
+| Method | Endpoint | Description | Role |
+| POST | /insight/Create | Generate a new financial insight | Analyst, Admin |
+| GET | /insight | Retrieve all insights | Required |
+
 ## Getting Started
 
 ### Prerequisites
@@ -70,46 +109,6 @@ This project is divided into four distinct layers to ensure separation of concer
     ```
 
 
-API Documentation
-All routes are prefixed with /api. Most routes require a JWT Bearer Token in the header:
-Authorization: Bearer {your_token}
-
-1. Authentication
-AuthController
-| Method | Endpoint | Description | Auth |
-| :--- | :--- | :--- | :--- |
-| POST | /auth/login | Authenticate user and return JWT | None |
-
-2. User Management
-UserController
-| Method | Endpoint | Description | Role |
-| :--- | :--- | :--- | :--- |
-| GET | /user/all | List all registered users | Admin |
-| GET | /user/{id} | Get specific user details | Admin |
-| POST | /user/register | Create a new user account | Admin |
-| PUT | /user/toggle-status/{id} | Activate/Deactivate a user | Admin |
-| PUT | /user/update-role/{id} | Change user permissions | Admin |
-| GET | /user/admin/logs | View all system activity logs | Admin |
-| GET | /user/admin/logs/user/{id} | View logs for a specific user | Admin |
-
-3. Financial Dashboard
-DashboardController
-| Method | Endpoint | Description | Auth |
-| :--- | :--- | :--- | :--- |
-| GET | /dashboard/summary | Get overall financial summary | Required |
-| GET | /dashboard/category | Get breakdown by category | Admin |
-
-4. Transactions
-TransactionsController
-| Method | Endpoint | Description | Role |
-| :--- | :--- | :--- | :--- |
-| GET | /transactions/all | Get all transactions | Admin |
-| POST | /transactions/create | Record a new transaction | Admin |
-| DELETE | /transactions/{id} | Remove a transaction | Admin |
-
-5. Financial Insights
-InsightController
-| Method | Endpoint | Description | Role |
-| :--- | :--- | :--- | :--- |
-| POST | /insight/Create | Generate a new financial insight | Analyst, Admin |
-| GET | /insight | Retrieve all insights | Required |
+Shivam Kumar
+Backend Developer (.NET)
+Chennai, India
