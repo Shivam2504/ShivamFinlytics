@@ -109,7 +109,7 @@ All routes are prefixed with `/api`. Protected routes require the following head
 | Method | Endpoint | Description | Auth |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/dashboard/summary` | Get overall financial summary | Required |
-| `GET` | `/dashboard/category` | Get breakdown by category | **Admin** |
+| `GET` | `/dashboard/category` | Get breakdown by category | **Admin/Analyst/Viewer** |
 
 ---
 
@@ -118,7 +118,7 @@ All routes are prefixed with `/api`. Protected routes require the following head
 
 | Method | Endpoint | Description | Role |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/transactions/all` | Get all transactions | **Admin** |
+| `GET` | `/transactions/all` | Get all transactions | **Admin/Analys/Viewer** |
 | `POST` | `/transactions/create` | Record a new transaction | **Admin** |
 | `DELETE` | `/transactions/{id}` | Remove a transaction | **Admin** |
 
