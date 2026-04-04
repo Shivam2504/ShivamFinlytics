@@ -38,7 +38,7 @@ The API is configured to automatically apply Entity Framework Core migrations to
 ## Project Structure
 
 * **`ShivamFinlytics.API`**: Handlers, Controllers, and Middleware.
-* **`ShivamFinlytics.Application`**: Business logic, Interfaces, and Services (Auth, Transactions, Insights).
+* **`ShivamFinlytics.Application`**: Business logic, DTOs,Interfaces, and Services (Auth, Transactions, Insights).
 * **`ShivamFinlytics.Infrastructure`**: Data access, DbContext, and SQL 2025 Migrations.
 * **`ShivamFinlytics.Domain`**: Core Entities and Domain Models.
 
