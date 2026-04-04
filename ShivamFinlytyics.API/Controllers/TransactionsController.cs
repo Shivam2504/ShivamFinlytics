@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShivamFinlytics.Application.DTOs;
 using ShivamFinlytics.Application.Interfaces;
+using ShivamFinlytics.Domain.Enums;
 
 namespace ShivamFinlytyics.API.Controllers;
 
@@ -54,8 +55,8 @@ public class TransactionsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateTransactionDto dto)
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("id");
-        
-        if (userIdClaim == null) 
+
+        if (userIdClaim == null)
         {
             return Unauthorized(new { message = "User ID not found in token." });
         }
@@ -90,5 +91,36 @@ public class TransactionsController : ControllerBase
         {
             return NotFound(new { message = ex.Message });
         }
+    }
+    /// <summary>
+    /// Filters transactions based on a start and end date.
+    /// </summary>
+    /// <param name="startDate">The beginning of the period (YYYY-MM-DD).</param>
+    /// <param name="endDate">The end of the period (YYYY-MM-DD).</param>
+    [HttpGet("filter")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetByDate([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+    {
+        if (startDate > endDate)
+        {
+            return BadRequest(new { message = "Start date cannot be after the end date." });
+        }
+
+        var data = await _transactionservice.GetTransactionsByDateAsync(startDate, endDate);
+        return Ok(data);
+    }
+
+    /// <summary>
+    /// Filters transactions by Type using an Enum.
+    /// </summary>
+    /// <param name="type">Choose 1 for Income, 2 for Expense</param>
+    [HttpGet("filter-by-type")]
+    public async Task<IActionResult> GetByType([FromQuery] TransactionType type)
+    {
+        // .NET automatically validates if the value is part of the Enum
+        var results = await _transactionservice.GetTransactionsByTypeAsync(type);
+        return Ok(results);
     }
 }

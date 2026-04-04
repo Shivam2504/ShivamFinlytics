@@ -5,6 +5,7 @@ using ShivamFinlytics.Application.Interfaces;
 using ShivamFinlytics.Infrastructure.Data;
 using ShivamFinlytics.Domain.Entities;
 using System.Xml;
+using ShivamFinlytics.Domain.Enums;
 
 namespace ShivamFinlytics.Application.Services;
 
@@ -25,7 +26,9 @@ public class TransactionService : ITransactionsService
             Amount = dto.Amount,
             Type = dto.Type,
             CategoryId = dto.CategoryId,
-            Note = dto.Note
+            Note = dto.Note,
+            Date = dto.Date == default ? DateTime.UtcNow : dto.Date
+
         };
 
         _context.Transactions.Add(transaction);
@@ -59,6 +62,43 @@ public class TransactionService : ITransactionsService
                 CategoryName = t.Category.Name,
                 Note = t.Note,
                 Date = t.Date
+            })
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<TransactionFilterDto>> GetTransactionsByTypeAsync(TransactionType type)
+    {
+        return await _context.Transactions
+            .AsNoTracking()
+            .Where(t => t.Type == type) // Direct enum comparison
+            .OrderByDescending(t => t.CreatedAt)
+            .Select(t => new TransactionFilterDto
+            {
+                TransactionId = t.TransactionId,
+                Amount = t.Amount,
+                // Convert Enum to String for the JSON response
+                Type = t.Type.ToString(),
+                CategoryName = t.Category.Name,
+                CreatedAt = t.CreatedAt
+            })
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<TransactionFilterDto>> GetTransactionsByDateAsync(DateTime startDate, DateTime endDate)
+    {
+        return await _context.Transactions
+            .AsNoTracking()
+            // .Date strips the time from the DB column for a clean comparison
+            .Where(t => t.CreatedAt.Date >= startDate.Date && t.CreatedAt.Date <= endDate.Date)
+            .OrderByDescending(t => t.CreatedAt)
+            .Select(t => new TransactionFilterDto
+            {
+                TransactionId = t.TransactionId,
+                Amount = t.Amount,
+                Type = t.Type.ToString(),
+                CategoryName = t.Category.Name,
+                Date = t.Date,       // User's recorded date
+                CreatedAt = t.CreatedAt // Actual system timestamp
             })
             .ToListAsync();
     }

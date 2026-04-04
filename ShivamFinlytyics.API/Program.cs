@@ -67,7 +67,7 @@ builder.Services.AddScoped<ITransactionsService, TransactionService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
 builder.Services.AddScoped<IInsightService, InsightService>();
-builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<IJwtService,JwtService>();
 
 // 🌐 Controllers
 builder.Services.AddControllers()
