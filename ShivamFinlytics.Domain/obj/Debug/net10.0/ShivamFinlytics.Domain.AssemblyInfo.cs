@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ShivamFinlytics.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7eea007c805e4eba99372b72c9941e9868a33a07")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d6cce39e0bad5d8fc0cc7281e9b2a71e93e09890")]
 [assembly: System.Reflection.AssemblyProductAttribute("ShivamFinlytics.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ShivamFinlytics.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

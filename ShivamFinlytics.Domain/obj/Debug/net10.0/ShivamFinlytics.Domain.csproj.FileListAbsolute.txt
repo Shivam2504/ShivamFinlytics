@@ -9,3 +9,4 @@ C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Domain\obj\Debug\net10.
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Domain\obj\Debug\net10.0\refint\ShivamFinlytics.Domain.dll
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Domain\obj\Debug\net10.0\ShivamFinlytics.Domain.pdb
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Domain\obj\Debug\net10.0\ref\ShivamFinlytics.Domain.dll
+C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Domain\obj\Debug\net10.0\ShivamFinlytics.Domain.sourcelink.json

@@ -15,3 +15,4 @@ C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Application\obj\Debug\n
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Application\obj\Debug\net10.0\refint\ShivamFinlytics.Application.dll
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Application\obj\Debug\net10.0\ShivamFinlytics.Application.pdb
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Application\obj\Debug\net10.0\ref\ShivamFinlytics.Application.dll
+C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Application\obj\Debug\net10.0\ShivamFinlytics.Application.sourcelink.json

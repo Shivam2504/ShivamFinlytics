@@ -170,3 +170,4 @@ C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytyics.API\bin\Debug\net10.0\
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytyics.API\bin\Debug\net10.0\.env
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytyics.API\bin\Debug\net10.0\DotNetEnv.dll
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytyics.API\bin\Debug\net10.0\Sprache.dll
+C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytyics.API\obj\Debug\net10.0\ShivamFinlytyics.API.sourcelink.json

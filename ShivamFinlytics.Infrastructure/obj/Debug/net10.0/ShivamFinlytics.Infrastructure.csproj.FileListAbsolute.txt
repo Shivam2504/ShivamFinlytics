@@ -15,3 +15,4 @@ C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Infrastructure\obj\Debu
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Infrastructure\obj\Debug\net10.0\ShivamFinlytics.Infrastructure.pdb
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Infrastructure\obj\Debug\net10.0\ShivamFinlytics.Infrastructure.genruntimeconfig.cache
 C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Infrastructure\obj\Debug\net10.0\ref\ShivamFinlytics.Infrastructure.dll
+C:\Users\2478706\Desktop\ShivamFinlytics\ShivamFinlytics.Infrastructure\obj\Debug\net10.0\ShivamFinlytics.Infrastructure.sourcelink.json
