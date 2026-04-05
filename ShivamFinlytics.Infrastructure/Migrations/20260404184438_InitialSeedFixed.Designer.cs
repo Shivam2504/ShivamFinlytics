@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShivamFinlytics.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using ShivamFinlytics.Infrastructure.Data;
 namespace ShivamFinlytics.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260404184438_InitialSeedFixed")]
+    partial class InitialSeedFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,26 +120,6 @@ namespace ShivamFinlytics.Infrastructure.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            Name = "Salary",
-                            Type = 1
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            Name = "Food & Groceries",
-                            Type = 2
-                        },
-                        new
-                        {
-                            CategoryId = 3,
-                            Name = "Investments",
-                            Type = 1
-                        });
                 });
 
             modelBuilder.Entity("ShivamFinlytics.Domain.Entities.RefreshToken", b =>
@@ -242,44 +225,6 @@ namespace ShivamFinlytics.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
-
-                    b.HasData(
-                        new
-                        {
-                            TransactionId = 1,
-                            Amount = 5000.00m,
-                            CategoryId = 1,
-                            CreatedAt = new DateTime(2026, 4, 3, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date = new DateTime(2026, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Note = "Monthly Salary Deposit",
-                            Type = "Income",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            TransactionId = 2,
-                            Amount = 45.50m,
-                            CategoryId = 2,
-                            CreatedAt = new DateTime(2026, 4, 3, 13, 15, 0, 0, DateTimeKind.Unspecified),
-                            Date = new DateTime(2026, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Note = "Lunch at Cafe",
-                            Type = "Expense",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            TransactionId = 3,
-                            Amount = 120.00m,
-                            CategoryId = 2,
-                            CreatedAt = new DateTime(2026, 4, 4, 9, 30, 0, 0, DateTimeKind.Unspecified),
-                            Date = new DateTime(2026, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Note = "Weekly Groceries",
-                            Type = "Expense",
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("ShivamFinlytics.Domain.Entities.User", b =>

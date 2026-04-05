@@ -30,7 +30,7 @@ public class DashboardService : IDashboardService
     public async Task<object> GetSummary()
     {
         var income = await _context.Transactions.Where(t => t.Type == Domain.Enums.TransactionType.Income && !t.IsDeleted).SumAsync(t => t.Amount);
-        var expance = await _context.Transactions.Where(t => t.Type == Domain.Enums.TransactionType.Exapance && !t.IsDeleted).SumAsync(t => t.Amount);
+        var expance = await _context.Transactions.Where(t => t.Type == Domain.Enums.TransactionType.Expense && !t.IsDeleted).SumAsync(t => t.Amount);
         return new
         {
             TotalIncome = income,

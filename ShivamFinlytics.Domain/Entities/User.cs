@@ -21,7 +21,7 @@ public class User
 
     public DateTime CreatedAt {get;set;} = DateTime.Now;
 
-    public Role Role {get;set;}
+    public Role Role {get;set;} = null!;
 
     public ICollection<Transaction> Transactions{get;set;}
 

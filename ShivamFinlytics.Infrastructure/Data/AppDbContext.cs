@@ -1,72 +1,163 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using ShivamFinlytics.Domain.Entities;
+using ShivamFinlytics.Domain.Enums;
+using BCrypt.Net;
 
 namespace ShivamFinlytics.Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    }
-
+    #region DbSets
     public DbSet<User> Users { get; set; }
     public DbSet<AnalystInsight> AnalystInsights { get; set; }
-
     public DbSet<Category> Categories { get; set; }
-
     public DbSet<RefreshToken> RefreshTokens { get; set; }
-
     public DbSet<Role> Roles { get; set; }
-
     public DbSet<Transaction> Transactions { get; set; }
-
     public DbSet<ActivityLog> ActivityLogs { get; set; }
+    #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
+        // --- 1. Global Configurations ---
+
+        // Ensure Email is unique
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
 
+        // Convert TransactionType Enum to String in Database
+        modelBuilder.Entity<Transaction>()
+            .Property(t => t.Type)
+            .HasConversion<string>();
+
+        // Set Decimal Precision for Financial Amounts
+        modelBuilder.Entity<Transaction>()
+            .Property(t => t.Amount)
+            .HasPrecision(18, 2);
+
+        // --- 2. Relationship Mapping ---
+
+        // User -> Role
         modelBuilder.Entity<User>()
             .HasOne(u => u.Role)
             .WithMany(r => r.Users)
             .HasForeignKey(u => u.RoleId);
 
+        // Transaction -> User
         modelBuilder.Entity<Transaction>()
             .HasOne(t => t.User)
             .WithMany(u => u.Transactions)
             .HasForeignKey(t => t.UserId);
 
+        // ActivityLog -> User
         modelBuilder.Entity<ActivityLog>()
             .HasOne(a => a.User)
             .WithMany(u => u.ActivityLogs)
             .HasForeignKey(a => a.UserId);
 
+        // AnalystInsight Complex Mapping
         modelBuilder.Entity<AnalystInsight>(entity =>
         {
-            // 1. Link to User (The person who created it)
-             entity.HasOne(i => i.User)
-                    .WithMany() // or .WithMany(u => u.AnalystInsights) if you added that to User entity
-                    .HasForeignKey(i => i.CreatedBy)
-                    .OnDelete(DeleteBehavior.Restrict); // Prevent accidental user deletion
+            entity.HasOne(i => i.User)
+                  .WithMany()
+                  .HasForeignKey(i => i.CreatedBy)
+                  .OnDelete(DeleteBehavior.Restrict);
 
-            // 2. Link to Category (Optional)
             entity.HasOne(i => i.Category)
-                    .WithMany()
-                    .HasForeignKey(i => i.CategoryId)
-                    .IsRequired(false);
+                  .WithMany()
+                  .HasForeignKey(i => i.CategoryId)
+                  .IsRequired(false);
 
-            // 3. Link to Transaction (Optional)
             entity.HasOne(i => i.Transaction)
-            .WithMany()
-            .HasForeignKey(i => i.TranctionId) // Keeping your spelling 'TranctionId'
-            .IsRequired(false);
+                  .WithMany()
+                  .HasForeignKey(i => i.TranctionId) // Matches your 'TranctionId' spelling
+                  .IsRequired(false);
         });
-    }
 
+        // --- 3. Data Seeding ---
+
+        // Seed Roles using the RoleType Enum values
+        modelBuilder.Entity<Role>().HasData(
+            new Role { RoleId = (int)RoleType.Admin, Name = "Admin" },
+            new Role { RoleId = (int)RoleType.Analyst, Name = "Analyst" },
+            new Role { RoleId = (int)RoleType.Viewer, Name = "Viewer" }
+        );
+
+        // Seed Initial Admin User
+        modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                UserId = 1,
+                Name = "System Admin",
+                Email = "admin@shivam.com",
+                PasswordHash = "$2a$11$ea/3uh6HfEPF3ZDD4c6eAOQLkiMTJaV5f28lhtcIdMtX1Yb9w//De",
+                RoleId = (int)RoleType.Admin,
+                IsActive = true,
+                CreatedAt = new DateTime(2026, 04, 01)
+            }
+        );
+
+        modelBuilder.Entity<Category>().HasData(
+        new Category 
+        { 
+            CategoryId = 1, 
+            Name = "Salary", 
+            Type = TransactionType.Income 
+        },
+        new Category 
+        { 
+            CategoryId = 2, 
+            Name = "Food & Groceries", 
+            Type = TransactionType.Expense 
+        },
+        new Category 
+        { 
+            CategoryId = 3, 
+            Name = "Investments", 
+            Type = TransactionType.Income 
+        }
+    );
+
+    // 2. Seed Transactions Second
+    modelBuilder.Entity<Transaction>().HasData(
+        new Transaction 
+        { 
+            TransactionId = 1, 
+            UserId = 1,      // Ensure this matches your seeded Admin User ID
+            CategoryId = 1,  // Links to "Salary"
+            Amount = 5000.00m, 
+            Type = TransactionType.Income, 
+            Date = new DateTime(2026, 04, 03), 
+            Note = "Monthly Salary Deposit",
+            CreatedAt = new DateTime(2026, 04, 03, 10, 0, 0)
+        },
+        new Transaction 
+        { 
+            TransactionId = 2, 
+            UserId = 1, 
+            CategoryId = 2,  // Links to "Food & Groceries"
+            Amount = 45.50m, 
+            Type = TransactionType.Expense, 
+            Date = new DateTime(2026, 04, 03), 
+            Note = "Lunch at Cafe",
+            CreatedAt = new DateTime(2026, 04, 03, 13, 15, 0)
+        },
+        new Transaction 
+        { 
+            TransactionId = 3, 
+            UserId = 1, 
+            CategoryId = 2, 
+            Amount = 120.00m, 
+            Type = TransactionType.Expense, 
+            Date = new DateTime(2026, 04, 04), 
+            Note = "Weekly Groceries",
+            CreatedAt = new DateTime(2026, 04, 04, 09, 30, 0)
+        }
+    );
+    }
 }
