@@ -51,14 +51,14 @@ public class TransactionService : ITransactionsService
     public async Task<List<TransactionDto>> GetAll()
     {
         return await _context.Transactions
-            .Include(t => t.Category) // Join with Category table
-            .Where(t => !t.IsDeleted) // 🛡️ Soft Delete filter
+            .Include(t => t.Category) 
+            .Where(t => !t.IsDeleted)
             .OrderByDescending(t => t.Date)
             .Select(t => new TransactionDto
             {
                 TransactionId = t.TransactionId,
                 Amount = t.Amount,
-                Type = t.Type.ToString(), // Converts Enum to String
+                Type = t.Type.ToString(), 
                 CategoryName = t.Category.Name,
                 Note = t.Note,
                 Date = t.Date

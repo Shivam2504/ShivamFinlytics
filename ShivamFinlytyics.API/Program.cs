@@ -9,9 +9,8 @@ using ShivamFinlytics.Infrastructure.Services;
 using Microsoft.OpenApi;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
-using DotNetEnv; // 1. Added namespace
+using DotNetEnv;
 
-// 2. Load the .env file (Must be the first line)
 if(File.Exists(".env")) 
 {
     DotNetEnv.Env.Load();
@@ -20,12 +19,11 @@ if(File.Exists(".env"))
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔗 3. DB Context updated to use Environment Variable
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// RateLimitier
+
 builder.Services.AddRateLimiter(options =>
 {
     options.AddFixedWindowLimiter(policyName: "FixedPolicy", opt =>
@@ -38,7 +36,6 @@ builder.Services.AddRateLimiter(options =>
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });
 
-// 🔐 4. JWT Configuration updated to use Environment Variables
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
 var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
 var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
@@ -64,7 +61,6 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// 🧠 Dependency Injection (Services)
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITransactionsService, TransactionService>();
@@ -73,7 +69,6 @@ builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
 builder.Services.AddScoped<IInsightService, InsightService>();
 builder.Services.AddScoped<IJwtService,JwtService>();
 
-// 🌐 Controllers
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -81,7 +76,6 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.WriteIndented = true;
     });
 
-// 📄 Swagger (API testing)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options=>
 {
@@ -102,13 +96,11 @@ builder.Services.AddSwaggerGen(options=>
 
 var app = builder.Build();
 
-// 🧪 Swagger in Development
 if (app.Environment.IsDevelopment())
 {
     
 }
 
-// 🔐 Middleware Order (VERY IMPORTANT)
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseRateLimiter();

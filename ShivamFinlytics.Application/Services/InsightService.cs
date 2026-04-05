@@ -19,32 +19,15 @@ public class InsightService : IInsightService
     }
     public async Task CreateInsight(CreateInsightDto dto, int userId)
     {
-        // // 1. Check if User exists
-        // var userExists = await _context.Users.AnyAsync(u => u.UserId == userId);
-        // if (!userExists)
-        // {
-        //     throw new Exception($"Unauthorized: User ID {userId} does not exist in the database. Please log in again.");
-        // }
-
-        // // 2. Check if Transaction exists (from the previous error)
-        // var transactionExists = await _context.Transactions.AnyAsync(t => t.TransactionId == dto.TransactionId);
-        // if (!transactionExists)
-        // {
-        //     throw new Exception($"Transaction ID {dto.TransactionId} not found.");
-        // }
 
         var insight = new AnalystInsight
         {
             Title = dto.Title,
             Description = dto.Description,
             CategoryId = dto.CategoryId,
-            // ✅ Ensure this matches the typo in your Entity: "TranctionId"
             TranctionId = dto.TransactionId,
             ImpactLevel = Enum.Parse<ImpactLevel>(dto.ImpactLevel, true),
-
-            // 🚀 CRITICAL FIX: Map the userId to CreatedBy
             CreatedBy = userId,
-
             CreatedAt = DateTime.UtcNow
         };
 
@@ -59,6 +42,7 @@ public class InsightService : IInsightService
             $"Insight '{insight.Title}' created by user {userId}"
         );
     }
+    
 
     public async Task<List<AnalystInsight>> GetAll()
     {
