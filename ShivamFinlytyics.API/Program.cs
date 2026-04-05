@@ -12,7 +12,11 @@ using System.Threading.RateLimiting;
 using DotNetEnv; // 1. Added namespace
 
 // 2. Load the .env file (Must be the first line)
-DotNetEnv.Env.Load();
+if(File.Exists(".env")) 
+{
+    DotNetEnv.Env.Load();
+}
+
 
 var builder = WebApplication.CreateBuilder(args);
 
