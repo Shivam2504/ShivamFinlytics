@@ -23,44 +23,33 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // --- 1. Global Configurations ---
-
-        // Ensure Email is unique
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
 
-        // Convert TransactionType Enum to String in Database
         modelBuilder.Entity<Transaction>()
             .Property(t => t.Type)
             .HasConversion<string>();
 
-        // Set Decimal Precision for Financial Amounts
         modelBuilder.Entity<Transaction>()
             .Property(t => t.Amount)
             .HasPrecision(18, 2);
 
-        // --- 2. Relationship Mapping ---
-
-        // User -> Role
         modelBuilder.Entity<User>()
             .HasOne(u => u.Role)
             .WithMany(r => r.Users)
             .HasForeignKey(u => u.RoleId);
 
-        // Transaction -> User
         modelBuilder.Entity<Transaction>()
             .HasOne(t => t.User)
             .WithMany(u => u.Transactions)
             .HasForeignKey(t => t.UserId);
 
-        // ActivityLog -> User
         modelBuilder.Entity<ActivityLog>()
             .HasOne(a => a.User)
             .WithMany(u => u.ActivityLogs)
             .HasForeignKey(a => a.UserId);
 
-        // AnalystInsight Complex Mapping
         modelBuilder.Entity<AnalystInsight>(entity =>
         {
             entity.HasOne(i => i.User)
@@ -79,16 +68,13 @@ public class AppDbContext : DbContext
                   .IsRequired(false);
         });
 
-        // --- 3. Data Seeding ---
 
-        // Seed Roles using the RoleType Enum values
         modelBuilder.Entity<Role>().HasData(
             new Role { RoleId = (int)RoleType.Admin, Name = "Admin" },
             new Role { RoleId = (int)RoleType.Analyst, Name = "Analyst" },
             new Role { RoleId = (int)RoleType.Viewer, Name = "Viewer" }
         );
 
-        // Seed Initial Admin User
         modelBuilder.Entity<User>().HasData(
             new User
             {
@@ -123,13 +109,12 @@ public class AppDbContext : DbContext
         }
     );
 
-    // 2. Seed Transactions Second
     modelBuilder.Entity<Transaction>().HasData(
         new Transaction 
         { 
             TransactionId = 1, 
-            UserId = 1,      // Ensure this matches your seeded Admin User ID
-            CategoryId = 1,  // Links to "Salary"
+            UserId = 1, 
+            CategoryId = 1,
             Amount = 5000.00m, 
             Type = TransactionType.Income, 
             Date = new DateTime(2026, 04, 03), 
@@ -140,7 +125,7 @@ public class AppDbContext : DbContext
         { 
             TransactionId = 2, 
             UserId = 1, 
-            CategoryId = 2,  // Links to "Food & Groceries"
+            CategoryId = 2,
             Amount = 45.50m, 
             Type = TransactionType.Expense, 
             Date = new DateTime(2026, 04, 03), 
